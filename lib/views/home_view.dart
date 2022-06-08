@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test_pin/constants/color_constants.dart';
 import 'package:test_pin/constants/view_constants.dart';
 import 'package:test_pin/controllers/home_controller.dart';
 import 'package:test_pin/widgets/spacer.dart';
 
-class HomePage extends GetView<HomeController> {
-  const HomePage({Key? key}) : super(key: key);
+class HomeView extends GetView<HomeController> {
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class HomePage extends GetView<HomeController> {
         children: [
           Container(
             padding: const EdgeInsets.all(ViewConstants.normalPadding),
-            color: Colors.greenAccent[200],
+            color: ColorConstants.greenColor,
             child: const Text(
               'Biometric',
               style: TextStyle(
@@ -35,18 +36,18 @@ class HomePage extends GetView<HomeController> {
                 right: ViewConstants.normalMargin),
             child: Row(
               children: [
-                Obx(() => controller.hasFingerPrintLock.value
-                    ? Icon(
+                Obx(() => controller.hasAvailableBiometrics.value
+                    ? const Icon(
                         Icons.check,
-                        color: Colors.green[600],
+                        color: ColorConstants.greenColor,
                       )
-                    : Icon(
+                    : const Icon(
                         Icons.clear,
-                        color: Colors.red[600],
+                        color: ColorConstants.redColor,
                       )),
                 const HorizontalSpacer(),
                 const Text(
-                  'Finger print Authentication',
+                  'Available Biometrics',
                   style: TextStyle(
                     fontSize: ViewConstants.normalFontSize,
                     fontWeight: FontWeight.bold,
@@ -56,37 +57,14 @@ class HomePage extends GetView<HomeController> {
             ),
           ),
           const VerticalSpacer(),
-          Container(
-            margin: const EdgeInsets.only(
-                left: ViewConstants.normalMargin,
-                right: ViewConstants.normalMargin),
-            child: Row(
-              children: [
-                Obx(() => controller.hasFaceLock.value
-                    ? Icon(
-                        Icons.check,
-                        color: Colors.green[600],
-                      )
-                    : Icon(
-                        Icons.clear,
-                        color: Colors.red[600],
-                      )),
-                const HorizontalSpacer(),
-                const Text(
-                  'Face Authentication',
-                  style: TextStyle(
-                    fontSize: ViewConstants.normalFontSize,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ],
-            ),
-          ),
           Align(
             alignment: Alignment.center,
             child: ElevatedButton(
               onPressed: controller.authenticateUser,
               child: const Text('Authenticate'),
+              style: ElevatedButton.styleFrom(
+                primary: ColorConstants.primaryColor,
+              ),
             ),
           )
         ],
