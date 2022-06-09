@@ -37,6 +37,9 @@ dependencies:
   local_auth: ^2.1.0
   get: ^4.6.5
   permission_handler: ^9.2.0
+  flutter_screen_lock: ^5.0.12
+  flutter_secure_storage: ^5.0.2
+  pinput: ^1.2.2
 
 dev_dependencies:
   flutter_test:

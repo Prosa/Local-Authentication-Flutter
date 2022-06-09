@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:test_pin/bindings/initial_bindings.dart';
 import 'package:test_pin/constants/color_constants.dart';
 import 'package:test_pin/views/home_view.dart';
+import 'package:test_pin/views/set_pin_view.dart';
+import 'package:test_pin/views/set_secutiry_view.dart';
+import 'package:test_pin/views/verify_pin_view.dart';
 
 void main() {
   runApp(
@@ -20,8 +23,11 @@ void main() {
 
         ),
     initialBinding: InitialBindings(),
+    debugShowCheckedModeBanner: false,
     getPages: [
-      GetPage(name: '/', page: () => const HomeView())
+      GetPage(name: '/', page: () => const HomeView()),
+      GetPage(name: '/set_security', page: () => const SetPinView()),
+      GetPage(name: '/verify_security', page: () => const VerifyPinView())
     ],
     initialRoute: '/',
   ));

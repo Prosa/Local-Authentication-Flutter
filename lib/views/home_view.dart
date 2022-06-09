@@ -8,6 +8,8 @@ import 'package:test_pin/widgets/spacer.dart';
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,13 +62,26 @@ class HomeView extends GetView<HomeController> {
           Align(
             alignment: Alignment.center,
             child: ElevatedButton(
-              onPressed: controller.authenticateUser,
+              onPressed: (){
+                controller.authenticateUser(context);
+              },
               child: const Text('Authenticate'),
               style: ElevatedButton.styleFrom(
                 primary: ColorConstants.primaryColor,
               ),
             ),
-          )
+          ),
+
+          Align(
+            alignment: Alignment.center,
+            child: ElevatedButton(
+              onPressed: controller.setPinDialog,
+              child: const Text('Set a PIN'),
+              style: ElevatedButton.styleFrom(
+                primary: ColorConstants.primaryColor,
+              ),
+            ),
+          ),
         ],
       ),
     );
