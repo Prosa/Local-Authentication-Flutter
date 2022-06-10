@@ -14,7 +14,21 @@ class HomeController extends GetxController{
   final _secureStorage = const FlutterSecureStorage();
   Rx<bool> hasAvailableBiometrics = false.obs;
   Rx<bool> isUserAuthenticated = false.obs;
+  Rx<bool> hasPin = false.obs;
+
   final InputController _inputController = InputController();
+
+  @override
+  void onInit(){
+    //initialize Page
+    //check if there is already a PIN
+    _checkForPin();
+    super.onInit();
+  }
+
+  Future<void> _checkForPin() async {
+    hasPin.value = await _secureStorage.read(key: StorageConstants.localPassword) != null;
+  }
 
   Future<void> _getAllBiometrics() async {
 
@@ -49,6 +63,8 @@ class HomeController extends GetxController{
 
       await _getAllBiometrics();
 
+
+
       _inputController.initialize(digits: 4, correctString: '1234');
 
       screenLock(
@@ -74,7 +90,7 @@ class HomeController extends GetxController{
         customizedButtonChild: hasAvailableBiometrics.value ? const Icon(
           Icons.fingerprint,
         ) : null,
-        correctString: '1234',
+        correctString: hasLocalAuthentication,
 
       );
 
@@ -85,6 +101,7 @@ class HomeController extends GetxController{
   setPinDialog() {
     SetSecurityController securityController = Get.find();
     securityController.initSetPinPage();
+
     Get.toNamed('/set_security');
   }
 

@@ -74,13 +74,19 @@ class HomeView extends GetView<HomeController> {
 
           Align(
             alignment: Alignment.center,
-            child: ElevatedButton(
+            child: Obx(() => controller.hasPin.value ? ElevatedButton(
+              onPressed: null,
+              child: const Text('Set a PIN'),
+              style: ElevatedButton.styleFrom(
+                primary: ColorConstants.primaryColor,
+              ),
+            ) : ElevatedButton(
               onPressed: controller.setPinDialog,
               child: const Text('Set a PIN'),
               style: ElevatedButton.styleFrom(
                 primary: ColorConstants.primaryColor,
               ),
-            ),
+            )),
           ),
         ],
       ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:test_pin/constants/storage_constants.dart';
+import 'package:test_pin/controllers/home_controller.dart';
 
 class SetSecurityController extends GetxController{
 
@@ -64,6 +65,8 @@ class SetSecurityController extends GetxController{
   }
 
   Future<void> updatePassword() async{
+    HomeController homeController = Get.find();
+    homeController.hasPin.value = true;
     secureStorage.write(key: StorageConstants.localPassword, value: pinController.text);
     await Future.delayed(const Duration(milliseconds: 500));
   }
