@@ -8,7 +8,11 @@ class MainView extends GetView<MainController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Main View'),
+      ),
+    );
   }
 
 

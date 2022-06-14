@@ -7,17 +7,19 @@ import 'package:test_pin/constants/view_constants.dart';
 
 void main() {
   runApp(
-      GetMaterialApp(
-        theme: ThemeData(
-          textButtonTheme: ViewConstants.textButtonTheme,
-          elevatedButtonTheme: ViewConstants.elevatedButtonTheme,
-          backgroundColor: ColorConstants.backgroundColor,
-          appBarTheme: ViewConstants.appBarTheme,
-          buttonTheme:  ViewConstants.buttonTheme,
-        ),
-    initialBinding: InitialBindings(),
-    debugShowCheckedModeBanner: false,
-    getPages: RouteConstants.appPages,
-    initialRoute: RouteConstants.startView,
-  ));
+    GetMaterialApp(
+      theme: ThemeData(
+        textButtonTheme: ViewConstants.textButtonTheme,
+        elevatedButtonTheme: ViewConstants.elevatedButtonTheme,
+        backgroundColor: ColorConstants.backgroundColor,
+        appBarTheme: ViewConstants.appBarTheme,
+        buttonTheme: ViewConstants.buttonTheme,
+      ),
+      initialBinding: InitialBindings(),
+      debugShowCheckedModeBanner: false,
+      getPages: RouteConstants.appPages,
+      initialRoute: RouteConstants.startView,
+      defaultTransition: Transition.cupertinoDialog,
+    ),
+  );
 }

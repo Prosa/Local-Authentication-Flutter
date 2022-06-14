@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:pinput/pin_put/pin_put.dart';
+import 'package:get/route_manager.dart';
 import 'package:test_pin/constants/app_constants.dart';
 import 'package:test_pin/constants/color_constants.dart';
+import 'package:test_pin/constants/route_constants.dart';
 import 'package:test_pin/constants/view_constants.dart';
 import 'package:test_pin/controllers/set_pin_controller.dart';
 import 'package:test_pin/extension/extension.dart';
@@ -44,30 +46,15 @@ class SetPinView extends GetView<SetPinController> {
                 ),
                 const VerticalSpacer(),
                 const VerticalSpacer(),
-                PinPut(
-                  enabled: false,
-                  obscureText: '*',
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
+                ObxValue((Rx<String> pin) => Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    PinInput(showInput: pin.value.isNotEmpty),
+                    PinInput(showInput: pin.value.length > 1),
+                    PinInput(showInput: pin.value.length > 2),
+                    PinInput(showInput: pin.value.length > 3),
                   ],
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  fieldsCount: AppConstants.pinLength,
-                  fieldsAlignment: MainAxisAlignment.spaceAround,
-                  textStyle:
-                      const TextStyle(fontSize: 25.0, color: Colors.black),
-                  eachFieldMargin: const EdgeInsets.all(0),
-                  eachFieldWidth: 53.0,
-                  eachFieldHeight: 55.0,
-                  onSubmit: (String pin) {},
-                  textInputAction: TextInputAction.done,
-                  focusNode: controller.pinFocusNode,
-                  controller: controller.pinController,
-                  disabledDecoration: ViewConstants.pinDecoration,
-                  submittedFieldDecoration: ViewConstants.pinDecoration,
-                  selectedFieldDecoration: ViewConstants.pinDecoration,
-                  followingFieldDecoration: ViewConstants.pinDecoration,
-                  pinAnimationType: PinAnimationType.scale,
-                ),
+                ), controller.pin),
               ],
             ),
           ),
@@ -80,28 +67,29 @@ class SetPinView extends GetView<SetPinController> {
                 topRight: Radius.circular(ViewConstants.defaultBorderRadius),
               ),
             ),
-            child: PinKeyboard(
+            child: ObxValue((Rx<String> pin) => PinKeyboard(
+              completeIconColor: ColorConstants.primaryColor,
 
-              onDigitTapped: (d) {
-                if (controller.pin.value.length == AppConstants.pinLength) {
-                  return;
-                }
-                controller.pin.value = controller.pin.value + d.toString();
-                controller.pinController.text = controller.pin.value;
+              onDigitTapped: pin.value.length == AppConstants.pinLength ? null : (d) {
+                pin.value = pin.value + d.toString();
               },
-              onComplete: null,
-              onBackspace: () {
-                if (controller.pin.value.isEmpty) {
-                  return;
-                }
-                controller.pin.value =
-                    controller.pin.value.removeLastCharacter();
-                controller.pinController.text = controller.pin.value;
+              onComplete: () {
+                Get.toNamed(RouteConstants.verifyPinView, arguments: {
+                  AppConstants.pinArgument : pin.value,
+                });
               },
-            ),
+              onBackspace: pin.value.isEmpty ? null :() {
+                pin.value =
+                    pin.value.removeLastCharacter();
+              },
+            ), controller.pin),
           )
         ],
       ),
     );
   }
+
+
 }
+
+

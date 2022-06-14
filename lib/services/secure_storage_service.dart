@@ -34,6 +34,10 @@ class SecureStorageService extends GetxService{
     _secureStorage.write(key: key, value: value.toString());
   }
 
+  Future<void> remove(String key) async{
+    _secureStorage.delete(key: key);
+  }
+
 
 
 
